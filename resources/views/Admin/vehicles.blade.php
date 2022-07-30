@@ -323,7 +323,7 @@
         $('#max_load_size_edit').val(data.vehicle.max_load_size);
         $('#max_load_weight_edit').val(data.vehicle.max_load_weight);
 
-         $('#editModal').modal('show');
+         //('#editModal').modal('show');
 
       },
       error: function(rejest) {}

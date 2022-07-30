@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Validator;
 use App\Models\vehicles;
 class VehicleController extends Controller
 {
@@ -11,7 +12,7 @@ class VehicleController extends Controller
     {
 
         //view form to add this vehicle
-        return view('Vehicle.Create');
+        return view('Admin.vehicles');
     }
 
 
@@ -38,20 +39,20 @@ class VehicleController extends Controller
         
     
 
-    //protected function validator(Request $request)
-    //{
-       // return Validator::make($request->all(), [
-            //'brand' => ['required', 'string', 'max:255', ],
-            //'model' => ['required', 'string', 'max:255'],
-            //'license_num' => ['required', 'string',  'max:255'],
-            //'color' => ['required', 'string',],
-            //'insurance_type' => ['required', 'string'],
-            //'passenger_count' => ['required', 'numeric', 'max:255'],
-            //'vehicle_type_id' => ['required', 'string', 'max:255'],
-            //'max_load_size' => ['required', 'numeric', 'max:255'],
-            //'max_load_weight' => ['required', 'numeric', 'max:255'],
-       // ]);
-
+    protected function validator(Request $request)
+    {
+        return Validator::make($request->all(), [
+            'brand' => ['required', 'string', 'max:255', ],
+            'model' => ['required', 'string', 'max:255'],
+            'license_num' => ['required', 'string',  'max:255'],
+            'color' => ['required', 'string',],
+            'insurance_type' => ['required', 'string'],
+            'passenger_count' => ['required', 'numeric', 'max:255'],
+            'vehicle_type_id' => ['required', 'string', 'max:255'],
+            'max_load_size' => ['required', 'numeric', 'max:255'],
+            'max_load_weight' => ['required', 'numeric', 'max:255'],
+        ]);
+    }
 
       public function show($vehicle_id)
     {
