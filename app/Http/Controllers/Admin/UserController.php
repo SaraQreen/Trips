@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Package;
+use App\Models\Passenger_trip;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Validator;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -74,10 +77,31 @@ class UserController extends Controller
         return response()->json(['user' => $user]);
     }
 
-    public function delete($id)
+    public function delete()
     {
+        $id = Auth::user()->id;
+        $user = User::findOrFail($id);
+        $pass_trips = Passenger_trip::where('passenger_id', $id)->get();
+        $packs = Package::where('sender_id', $id)->get();
+        if (isset($pass_trips) || isset($trips) || isset($packs)) {
+            $botUser = User::where('user_name', '=', 'bot')->get()->first();
 
-        $user = User::whereId($id)->first()->delete();
+            foreach ($pass_trips as $pass_trip) {
+                $pass_trip->passenger_id = $botUser->id;
+                $pass_trip->save();
+            }
+
+            foreach ($packs as $pack) {
+                $pack->sender_id = $botUser->id;
+                $pack->save();
+            }
+
+            $user->delete();
+        } else {
+
+            $user->forceDelete();
+        }
+
         return response()->json(['user' => $user]);
     }
 }
