@@ -65,18 +65,19 @@ class VehicleController extends Controller
     {
         //update vehicle in DB using AJAX
         
-        $data = $request->all();
-        $vehicle = Vehicles::where("vehicle_id", $data['u_id'])->update([
-            'brand' => $data['brand'],
-            'model' =>  $data['model'],
-            'license_num' =>  $data['license_num'],
-            'color' =>  $data['color'],
-            'insurance_type' => $data['insurance_type'],
-            'passenger_count' =>  $data['passenger_count'],
-            'vehicle_type' => $data['vehicle_type'],
-            'max_load_size' => $data['max_load_size'],
-            'max_load_weight' => $data['max_load_weight'],
-        ]);
+        $vehicle = vehicles::find($request->vehicle_id);
+
+
+        $vehicle->brand = $request->brand;
+        $vehicle->model = $request->model;
+        $vehicle->license_num = $request->license_num;
+        $vehicle->color = $request->color;
+        $vehicle->insurance_type = $vehicle->insurance_type;
+        $vehicle->passenger_count = $vehicle->passenger_count;
+        $vehicle->vehicle_type_id = $vehicle->vehicle_type_id;
+        $vehicle->max_load_size = $vehicle->max_load_size;
+        $vehicle->max_load_weight = $vehicle->max_load_weight;
+        $vehicle->save();
         return response()->json(['vehicle' => $vehicle]);
     }
 

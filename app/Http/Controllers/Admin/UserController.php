@@ -77,9 +77,9 @@ class UserController extends Controller
         return response()->json(['user' => $user]);
     }
 
-    public function delete()
+    public function delete($id)
     {
-        $id = Auth::user()->id;
+       
         $user = User::findOrFail($id);
         $pass_trips = Passenger_trip::where('passenger_id', $id)->get();
         $packs = Package::where('sender_id', $id)->get();

@@ -29,6 +29,8 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
 
+ 
+
   <!-- Vendor CSS Files -->
   <link href=" {{URL::asset('assets/vendor/animate.css/animate.min.css')}}" rel="stylesheet">
   <link href=" {{URL::asset('assets/vendor/aos/aos.css')}}" rel="stylesheet">

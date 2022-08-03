@@ -29,7 +29,11 @@ class AdminController extends Controller
 
     public function management()
     {
-        return view('Admin/management');
+        $packages_type=DB::select(DB::raw("SELECT * FROM `package_type`"));
+        $vehicle_types=DB::select(DB::raw("SELECT * FROM `vehicle_types`"));
+        //$vehicle_types = Vehicle_type::get();
+        $prices=DB::select(DB::raw("SELECT * FROM `prices`"));
+        return view('Admin/management',['packages_type'=>$packages_type, 'vehicle_types'=>$vehicle_types,'prices'=>$prices]);
     }
 
     public function packages()

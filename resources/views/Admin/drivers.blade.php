@@ -54,6 +54,8 @@
         <h2 class="modal-title" id="addModalLabel">Add New Driver</h2>
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
       </div>
+      <form  enctype="multipart/form-data">
+      @csrf
       <div class="modal-body">
         <div class="form-group">
           <label for="name">{{ __('Driver Name') }}</label>
@@ -132,6 +134,7 @@
           <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required pattern=".{6,}" title="Password should have at least 6 or more characters" autocomplete="new-password">
 
         </div>
+        
 
         
         <a id="save_driver" class="btn btn-info">
@@ -139,6 +142,7 @@
         </a>
 
       </div>
+      </form>
     </div>
   </div>
 </div>
@@ -153,7 +157,8 @@
         <h2 class="modal-title" id="addModalLabel">Edit Driver Information</h2>
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
       </div>
-      <form method="POST" action="{{ route('driver.update') }}" enctype="multipart/form-data">
+      <form  enctype="multipart/form-data">
+        @csrf
       <div class="modal-body">
         <div class="form-group">
           <label for="name">{{ __('Driver Name') }}</label>
@@ -226,6 +231,8 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 <script src="/assets/js/main.js"></script>
 
+
+
 <script>
   $(document).ready(function() {
     $(document).on('click', '#save_driver', function() {
@@ -233,7 +240,7 @@
       $.ajax({
         type: 'POST',
         url: "{{ route('driver.store') }}",
-        enctype:'',
+        enctype:'multipart/form-data',
         data: {
           '_token': "{{csrf_token()}}",
           'user_name': $("input[name='user_name']").val(),
