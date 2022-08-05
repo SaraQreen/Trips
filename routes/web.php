@@ -178,5 +178,14 @@ Route::group(['prefix'=>'management'],function(){
     Route::get('/delete_packagetype/{id}',[App\Http\Controllers\Admin\ManagementController::class, 'delete_packagetype'])->name('package_type.delete');
 });
 
+//AJAX Admins
+Route::group(['prefix'=>'admin'],function(){
+    Route::get('/create',[App\Http\Controllers\Admin\AccuntController::class, 'create']);
+    Route::post('/store',[App\Http\Controllers\Admin\AccuntController::class, 'store'])->name('admin.store');
+    Route::get('/show/{id}',[App\Http\Controllers\Admin\AccuntController::class, 'show'])->name('admin.show');
+    Route::post('/update',[App\Http\Controllers\Admin\AccuntController::class, 'update'])->name('admin.update');
+    Route::get('/delete/{id}',[App\Http\Controllers\Admin\AccuntController::class, 'delete'])->name('admin.delete');
+});
+
 
 
