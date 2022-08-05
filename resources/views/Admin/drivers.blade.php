@@ -58,7 +58,7 @@
       @csrf
       <div class="modal-body">
         <div class="form-group">
-          <label for="name">{{ __('Driver Name') }}</label>
+          <label for="name">{{ __('User Name') }}</label>
           <input id="user_name" type="text" class="form-control @error('user_name') is-invalid @enderror" name="user_name" value="{{ old('user_name') }}" required pattern="[A-z]{3,}" title="only letters are allowed" autocomplete="user_name" autofocus>
 
           @error('user_name')
@@ -135,8 +135,82 @@
 
         </div>
         
+        <br>
 
-        
+          <hr style="opacity: 0;">
+
+         <div class="container p-4">
+
+             <h2>Vehicle Information</h2>
+                <div class="form-group">
+                  <label for="brand">Brand</label>
+                  <input type="text" name="brand" class="form-control" id="brand" placeholder="eg. KIA,BMW,Audi " pattern="[A-Za-z].{2,}" required title="only letters are allowed">
+
+                 </div>
+
+                 <div class="form-group">
+            <label for="model">Model</label>
+            <input type="text" name="model" class="form-control" id="model" placeholder="eg. KIA cerato " pattern="[A-Za-z0-9].{2,}" required title="only numbers and letters are allowed">
+
+
+          </div>
+
+          <div class="form-group">
+            <label for="license_num">License Number</label>
+            <input type="text" name="license_num" class="form-control" id="license_num" placeholder="eg. 231456" required pattern="[0-9]{6,}" title="only numbers allowed">
+
+          </div>
+
+          <div class="form-group">
+            <label for="insurance_type">Insurance type</label>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="insurance_type" value="Full" id="full">
+              <label class="form-check-label" for="full">
+                Full
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="insurance_type" id="compulsory" value="Compulsory" checked>
+              <label class="form-check-label" for="compulsory">
+                Compulsory
+              </label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="color">Vehicle Color</label>
+            <input type="color" name="color" id="color" class="form-control" value="#aa1313" required title="Enter Vehicle Color">
+
+
+          </div>
+
+          <div class="form-group">
+            <label for="passenger_count">Passenger Count</label>
+            <select name="passenger_count" id="passenger_count" class="form-select" required>
+              <option>1</option>
+              <option>2</option>
+              <option>3</option>
+              <option>4</option>
+              <option>5</option>
+              <option>6</option>
+              <option>7</option>
+            </select>
+
+          </div>
+           
+              <div class="form-group">
+            <label for="max_load_size">Max Load Size</label>
+            <input type="text" class="form-control" name="max_load_size" id="max_load_size" placeholder="Liter" required pattern="[0-9]{4,}" title="only numbers are allowed">
+
+          </div>
+
+          <div class="form-group">
+            <label for="max_load_weight">Max Load Weight</label>
+            <input type="text" name="max_load_weight" class="form-control" id="max_load_weight" placeholder=" KG" required pattern="[0-9]{4,}" title="only numbers are allowed">
+
+          </div>
+
+
         <a id="save_driver" class="btn btn-info">
           {{ __('Save') }}
         </a>
@@ -162,9 +236,9 @@
       <div class="modal-body">
         <div class="form-group">
           <label for="name">{{ __('Driver Name') }}</label>
-          <input id="user_name_edit" type="text" class="form-control @error('user_name') is-invalid @enderror" name="user_name" value="{{ old('user_name') }}" required pattern="[A-z]{3,}" title="only letters are allowed" autocomplete="driver_name" autofocus>
+          <input id="driver_name_edit" type="text" class="form-control @error('driver_name') is-invalid @enderror" name="driver_name" value="{{ old('driver_name') }}" required pattern="[A-z]{3,}" title="only letters are allowed" autocomplete="driver_name" autofocus>
 
-          @error('user_name')
+          @error('driver_name')
           <span class="invalid-feedback" role="alert">
             <strong>{{ $message }}</strong>
           </span>
@@ -217,6 +291,7 @@
                   <img src="{{asset('images/License/'.$driver->license)}}" onClick="triggerClicku_Li()" id="u_li_display" height='200' width='250' style="border: 1px solid; cursor: pointer;" />
 
                 </div>
+                
 
         <a id="edit_driver" class="btn btn-info">
           {{ __('Edit') }}
@@ -243,7 +318,7 @@
         enctype:'multipart/form-data',
         data: {
           '_token': "{{csrf_token()}}",
-          'user_name': $("input[name='user_name']").val(),
+          'driver_name': $("input[name='driver_name']").val(),
           'full_name': $("input[name='full_name']").val(),
           'phone': $("input[name='phone']").val(),
           'email': $("input[name='email']").val(),

@@ -94,6 +94,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'role:ADMIN'], function () {
     Route::get('/trips_log', [App\Http\Controllers\Admin\AdminController::class, 'trips'])->name('trips_log');
     Route::get('/users', [App\Http\Controllers\Admin\AdminController::class, 'users'])->name('users');
     Route::get('/vehicles', [App\Http\Controllers\Admin\AdminController::class, 'vehicles'])->name('vehicles');
+    Route::get('/accunt', [App\Http\Controllers\Admin\AdminController::class, 'admins'])->name('accunt');
 });
 
 ///CRUD user data
@@ -166,6 +167,15 @@ Route::group(['prefix'=>'drivers'],function(){
     Route::get('/show/{id}',[App\Http\Controllers\Admin\DriverController::class, 'show'])->name('driver.show');
     Route::post('/update',[App\Http\Controllers\Admin\DriverController::class, 'update'])->name('driver.update');
     Route::get('/delete/{id}',[App\Http\Controllers\Admin\DriverController::class, 'delete'])->name('driver.delete');
+});
+
+//AJAX Management
+Route::group(['prefix'=>'management'],function(){
+    Route::get('/create_packagetype',[App\Http\Controllers\Admin\ManagementController::class, 'create_packagetype']);
+    Route::post('/store_packagetype',[App\Http\Controllers\Admin\ManagementController::class, 'store_packagetype'])->name('package_type.store');
+    Route::get('/show_packagetype/{id}',[App\Http\Controllers\Admin\ManagementController::class, 'show_packagetype'])->name('package_type.show');
+    Route::post('/update_packagetype',[App\Http\Controllers\Admin\ManagementController::class, 'update_packagetype'])->name('package_type.update');
+    Route::get('/delete_packagetype/{id}',[App\Http\Controllers\Admin\ManagementController::class, 'delete_packagetype'])->name('package_type.delete');
 });
 
 

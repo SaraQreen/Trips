@@ -6,7 +6,7 @@
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
   <!-- CSRF Token -->
-  <meta name="csrf-token" content="{{ csrf_token() }}">
+  <meta name="csrf-token" id="csrf-token" content="{{ csrf_token() }}">
 
   <title>Ride Share</title>
   <meta content="" name="description">
@@ -108,6 +108,8 @@
               <span class="nav_name">Packages</span> </a>
             <a href="{{ route('management') }}" class="nav_link {{ (request()->is('admin/management')) ? 'active' : '' }}"> <i class='nav_icon material-icons'>settings</i>
               <span class="nav_name">Managment</span> </a>
+              <a href="{{ route('accunt') }}" class="nav_link {{ (request()->is('admin/admins')) ? 'active' : '' }}"> <i class='nav_icon material-icons'>assignment_ind</i>
+              <span class="nav_name">Accunt</span> </a>
           </div>
         </div>
 

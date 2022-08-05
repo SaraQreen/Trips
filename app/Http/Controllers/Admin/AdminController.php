@@ -60,4 +60,11 @@ class AdminController extends Controller
         $vehicles = DB::select(DB::raw("SELECT * FROM `vehicles`"));
         return view('Admin/vehicles',['vehicles' => $vehicles, 'vehicle_types' => $vehicle_types]);
     }
+
+      public function admins()
+    {
+        $admins = DB::select(DB::raw("SELECT * FROM `users` WHERE role_type='ADMIN'"));
+        return view('Admin/admins',['admins'=>$admins]);
+    }
+
 }

@@ -54,10 +54,10 @@ class VehicleController extends Controller
         ]);
     }
 
-      public function show($vehicle_id)
+      public function show($id)
     {
 
-        $vehicle = vehicles::find($vehicle_id);
+        $vehicle = vehicles::find($id);
         return response()->json(['vehicle' => $vehicle]);
     }
 
@@ -72,11 +72,11 @@ class VehicleController extends Controller
         $vehicle->model = $request->model;
         $vehicle->license_num = $request->license_num;
         $vehicle->color = $request->color;
-        $vehicle->insurance_type = $vehicle->insurance_type;
-        $vehicle->passenger_count = $vehicle->passenger_count;
-        $vehicle->vehicle_type_id = $vehicle->vehicle_type_id;
-        $vehicle->max_load_size = $vehicle->max_load_size;
-        $vehicle->max_load_weight = $vehicle->max_load_weight;
+        $vehicle->insurance_type = $$request->insurance_type;
+        $vehicle->passenger_count = $request->passenger_count;
+        $vehicle->vehicle_type_id = $request->vehicle_type_id;
+        $vehicle->max_load_size = $request->max_load_size;
+        $vehicle->max_load_weight = $request->max_load_weight;
         $vehicle->save();
         return response()->json(['vehicle' => $vehicle]);
     }

@@ -112,6 +112,8 @@
       </div>
       <div class="modal-body">
         <div class="form-group">
+        <input type="hidden" name="package_type_id" id="package_type_id_edit" value="{{$package_type->package_type_id}}" />
+
           <label for="name">{{ __('Name') }}</label>
           <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required pattern="[A-z]{3,}" title="only letters are allowed" autocomplete="name" autofocus>
 
@@ -131,5 +133,92 @@
     </div>
   </div>
 
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<script>
+  $(document).ready(function() {
+    $(document).on('click', '#save_package_type', function() {
+
+      $.ajax({
+        type: 'POST',
+        url: "{{ route('package_type.store') }}",
+        data: {
+          '_token': "{{csrf_token()}}",
+          'name': $("input[name='name']").val(),
+               },
+        success: function(data) {
+          location.reload();
+        },
+        error: function(rejest) {}
+
+      });
+    });
+
+
+  });
+</script>
+
+<script>
+  function getPackage_typeDetails($id) {
+    var getUserURL = '{{ route("package_type.show","id") }}';
+    getPackage_typeURL = getPackage_typeURL.replace("id", $id);
+    console.log(getPackage_typeURL);
+    $.ajax({
+      type: 'GET',
+      url: getPackage_typeURL,
+
+      success: function(data) {
+        $('#name_edit').val(data.Package_type.name);
+        $('#id_edit').val(data.Package_type.id);
+
+        // $('#editModal').modal('show');
+
+      },
+      error: function(rejest) {}
+
+    });
+  }
+</script>
+
+<script>
+  $(document).ready(function() {
+    $(document).on('click', '#edit_Package_type', function() {
+
+      $.ajax({
+        type: 'POST',
+        url: "{{ route('package_type.update') }}",
+        data: {
+          '_token': "{{csrf_token()}}",
+          'id': $("#id_edit").val(),
+          'name': $("#name_edit").val(),
+        },
+        success: function(data) {
+          location.reload();
+        },
+        error: function(rejest) {}
+
+      });
+    });
+
+
+  });
+</script>
+
+<script>
+  function deletePackage_type($id) {
+    var getPackage_typeURL = '{{ route("package_type.delete","id") }}';
+    getPackage_typeURL = getPackage_typeURL.replace("id", $id);
+    console.log(getPackage_typeURL);
+    $.ajax({
+      type: 'GET',
+      url: getPackage_typeURL,
+      success: function(data) {
+        location.reload();
+      },
+      error: function(rejest) {}
+
+    });
+  }
+</script>
 
 @endsection
+
