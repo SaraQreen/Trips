@@ -22,6 +22,7 @@ class DriverController extends Controller
     {
     }
 
+    
     public function create()
     {
 
@@ -31,30 +32,32 @@ class DriverController extends Controller
 
     protected function store(Request $request)
     {
+        
         //save driver in DB using AJAX
 
 
-       $data = $request->all();
+       
        $vehicle = Vehicles::create([
-        'brand' => $data['brand'],
-        'model' =>  $data['model'],
-        'license_num' =>  $data['license_num'],
-        'color' =>  $data['color'],
-        'insurance_type' => $data['insurance_type'],
-        'passenger_count' =>  $data['passenger_count'],
-        'vehicle_type' => $data['vehicle_type'],
-        'max_load_size' => $data['max_load_size'],
-        'max_load_weight' => $data['max_load_weight'],
+        'brand' => $request->brand,
+        'model' =>  $request->model,
+        'license_num' => $request->license_num,
+        'color' =>  $request->color,
+        'insurance_type' => $request->insurance_type,
+        'passenger_count' => $request->passenger_count,
+        'vehicle_type' => $request->vehicle_type,
+        'max_load_size' => $request->max_load_size,
+        'max_load_weight' => $request->max_load_weight,
     ]);
     
     $user = User::create([
-        'user_name' => $data['user_name'],
-        'full_name' => $data['full_name'],
-        'email' => $data['email'],
-        'password' => Hash::make($data['password']),
-        'phone' => $data['phone'],
+        'user_name' => $request->user_name,
+        'full_name' => $request->full_name,
+        'email' => $request->email,
+        'password' => Hash::make($request->password),
+        'phone' => $request->phone,
         'role_type' => 'DRIVER',
     ]);
+
 
     $id_photo = $request->id_photo;
     $file_name_id = date("Y-m-d",time()) . '_' . $user['user_name'] . '.' . $id_photo->getClientOriginalExtension();
@@ -94,6 +97,7 @@ class DriverController extends Controller
     {
        
         $driver = DB::select(DB::raw("SELECT d.*,u.* FROM `drivers` d  JOIN users u ON u.id=d.driver_id;"));
+        // $driver = User::where('id',$id)->with(['driver'])->get();
         return response()->json(['driver' => $driver]);
     }
 
@@ -216,7 +220,7 @@ class DriverController extends Controller
 
         //File::delete(public_path('images/ID/' . $driver->id_photo));
         //File::delete(public_path('images/license/' . $driver->id_photo));
-        return redirect()->route('home');
+        
 
     return response()->json(['driver' => $driver]);
 }

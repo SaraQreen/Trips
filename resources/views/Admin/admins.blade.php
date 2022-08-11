@@ -23,11 +23,11 @@
         <td>{{$admin->email}}</td>
         <td>
           <a href='#'>
-            <i  class="fa fa-edit blue"></i>
+            <i onclick="getAdminDetails('{{$admin->id}}')" data-target="#editModal" data-toggle="modal" class="fa fa-edit blue"></i>
           </a>
           /
           <a href='#'>
-            <i  class="fa fa-trash danger"></i>
+            <i onclick="deleteAdmin('{{$admin->id}}')" data-toggle="modal" class="fa fa-trash danger"></i>
           </a>
               
         </td>
@@ -230,11 +230,11 @@
       url: getAdminURL,
 
       success: function(data) {
-        $('#user_name_edit').val(data.user.user_name);
-        $('#full_name_edit').val(data.user.full_name);
-        $('#phone_edit').val(data.user.phone);
-        $('#email_edit').val(data.user.email);
-        $('#id_edit').val(data.user.id);
+        $('#user_name_edit').val(data.admin.user_name);
+        $('#full_name_edit').val(data.admin.full_name);
+        $('#phone_edit').val(data.admin.phone);
+        $('#email_edit').val(data.admin.email);
+        $('#id_edit').val(data.admin.id);
 
         // $('#editModal').modal('show');
 
@@ -271,5 +271,22 @@
 
 
   });
+</script>
+
+<script>
+  function deleteAdmin($id) {
+    var getAdminURL = '{{ route("admin.delete","id") }}';
+    getAdminURL = getAdminURL.replace("id", $id);
+    console.log(getAdminURL);
+    $.ajax({
+      type: 'GET',
+      url: getAdminURL,
+      success: function(data) {
+        location.reload();
+      },
+      error: function(rejest) {}
+
+    });
+  }
 </script>
 @endsection

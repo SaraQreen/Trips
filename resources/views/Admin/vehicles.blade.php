@@ -90,7 +90,7 @@
 
                        <div class="form-group">
                   <label for="insurance_type">Insurance type</label>
-                  <div class="form-check">
+                  <div class="form-check" id="insurance_type_edit">
                     @if($vehicle->insurance_type=='FULL')
                     <input class="form-check-input" type="radio" name="insurance_type" value="FULL" id="full" checked>
                     <label class="form-check-label" for="full">
@@ -125,7 +125,7 @@
 
                        <div class="form-group">
                   <label for="passenger_count">Passenger Count</label>
-                  <select name="passenger_count" id="passenger_count" value="{{$vehicle->passenger_count}}" class="form-select" required>
+                  <select name="passenger_count" id="passenger_count_edit" value="{{$vehicle->passenger_count}}" class="form-select" required>
 
                     @for($i=1;$i<=7;$i++) @if($i==$vehicle->passenger_count)
                       <option value={{$i}} selected>{{$i}}</option>
@@ -139,7 +139,7 @@
 
                 <div class="form-group">
                   <label>Vehicle Type</label>
-                  <select name="vehicle_type" value="{{$vehicle->vehicle_type}}" id="vehicle_type" class="form-select" required>
+                  <select name="vehicle_type" value="{{$vehicle->vehicle_type}}" id="vehicle_type_edit" class="form-select" required>
                     @foreach($vehicle_types as $vehicle_type)
 
                     @if($i==$vehicle->passenger_count)
@@ -174,51 +174,17 @@
             <a id="edit_vehicle" class="btn btn-info">
             {{ __('Edit') }}
             </a>
-           </div>
           </form>
         </div>
       </div>
     </div>
-  </div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 
-<script>
-  $(document).ready(function() {
-    $(document).on('click', '#save_vehicle', function() {
-
-      $.ajax({
-        type: 'POST',
-        url: "{{ route('vehicle.store') }}",
-        data: {
-          '_token': "{{csrf_token()}}",
-          'brand': $("input[name='brand']").val(),
-          'model': $("input[name='model']").val(),
-          'license_num': $("input[name='license_num']").val(),
-          'color': $("input[name='color']").val(),
-          'insurance_type': $("input[name='insurance_type']").val(),
-          'passenger_count': $("input[name='passenger_count']").val(),
-          'vehicle_type_id': $("input[name='vehicle_type']").val(),
-          'max_load_size': $("input[name='max_load_size']").val(),
-          'max_load_weight': $("input[name='max_load_weight']").val(),
-
-        },
-        success: function(data) {
-          location.reload();
-        },
-        error: function(rejest) {}
-
-      });
-    });
-
-
-  });
-  </script>
-
   <script>
-  function getVehicleDetails($vehicle_id) {
-    var getVehicleURL = '{{ route("vehicle.show","vehicle_id") }}';
-    getVehicleURL = getVehicleURL.replace("vehicle_id", $vehicle_id);
+  function getVehicleDetails($id) {
+    var getVehicleURL = '{{ route("vehicle.show","id") }}';
+    getVehicleURL = getVehicleURL.replace("id", $id);
     console.log(getVehicleURL);
     $.ajax({
       type: 'GET',
@@ -257,8 +223,9 @@
           'brand': $("#brand_edit").val(),
           'model': $("#model_edit").val(),
           'license_num': $("#license_num_edit").val(),
+          'insurance_type': $("#insurance_type_edit").val(),
           'color': $("#color_edit").val(),
-          'vehicle_type_id': $("#vehicle_type_edit").val(),
+          'vehicle_type': $("#vehicle_type_edit").val(),
           'max_load_size': $("#max_load_size_edit").val(),
           'max_load_weight': $("#max_load_weight_edit").val()
 
@@ -275,24 +242,6 @@
   });
 
 </script>
-
-<script>
-  function deleteVehicle($vehicle_id) {
-    var getVehicleURL = '{{ route("vehicle.delete","vehicle_id") }}';
-    getVehicleURL = getVehicleURL.replace("vehicle_id", $vehicle_id);
-    console.log(getVehicleURL);
-    $.ajax({
-      type: 'GET',
-      url: getVehicleURL,
-      success: function(data) {
-        location.reload();
-      },
-      error: function(rejest) {}
-
-    });
-  }
-</script>
-
 
 
 @endsection

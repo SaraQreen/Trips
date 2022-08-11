@@ -24,17 +24,36 @@
                 <td>{{$driver->full_name}}</td>
                 <td>{{$driver->phone}}</td>
                 <td>{{$driver->email}}</td>
-                <td><img src='../images/ID/1658136308_jojo.jpg' height='50' width='50'/></td>
-                <td><img src='../images/License/1658136308_jojo.jpg' height='50' width='50'/></td>
-                <td>{{$driver->vehicle_id}}</td>
+                <td>
+                @if($driver->driver)
+                <img src='../images/ID/{{$driver->driver->id_photo}}' height='50' width='50'/>
+                  @else
+                  -------------
+                  @endif  
+                  </td>
+             
+           
+                  <td>
+                @if($driver->driver)
+                <img src='../images/ID/{{$driver->driver->license}}' height='50' width='50'/>
+                  @else
+                  -------------
+                  @endif  
+                  </td>
+                <td>@if($driver->driver)
+                {{$driver->driver->vehicle_id}}
+                  @else
+                  -------------
+                  @endif
+                </td>
 
                 <td>
                 <a href='#'>
-            <i onclick="getDriverDetails('{{$driver->id}}')" data-target="#editModal" data-toggle="modal" class="fa fa-edit blue"></i>
+            <i onclick="getDriverDetails('{{$driver->driver_id}}')" data-target="#editModal" data-toggle="modal" class="fa fa-edit blue"></i>
           </a>
           /
           <a href='#'>
-            <i onclick="deleteDriver('{{$driver->id}}')" data-toggle="modal" class="fa fa-trash danger"></i>
+            <i onclick="deleteDriver('{{$driver->driver_id}}')" data-toggle="modal" class="fa fa-trash danger"></i>
           </a>
                 </td>
 
@@ -54,7 +73,7 @@
         <h2 class="modal-title" id="addModalLabel">Add New Driver</h2>
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
       </div>
-      <form  enctype="multipart/form-data">
+      <form  id="myForm" enctype="multipart/form-data">
       @csrf
       <div class="modal-body">
         <div class="form-group">
@@ -134,21 +153,16 @@
           <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required pattern=".{6,}" title="Password should have at least 6 or more characters" autocomplete="new-password">
 
         </div>
+
         
-        <br>
+          <h2>Vehicle Information</h2>
+          <div class="form-group">
+            <label for="brand">Brand</label>
+            <input type="text" name="brand" class="form-control" id="brand" placeholder="eg. KIA,BMW,Audi " pattern="[A-Za-z].{2,}" required title="only letters are allowed">
 
-          <hr style="opacity: 0;">
+          </div>
 
-         <div class="container p-4">
-
-             <h2>Vehicle Information</h2>
-                <div class="form-group">
-                  <label for="brand">Brand</label>
-                  <input type="text" name="brand" class="form-control" id="brand" placeholder="eg. KIA,BMW,Audi " pattern="[A-Za-z].{2,}" required title="only letters are allowed">
-
-                 </div>
-
-                 <div class="form-group">
+          <div class="form-group">
             <label for="model">Model</label>
             <input type="text" name="model" class="form-control" id="model" placeholder="eg. KIA cerato " pattern="[A-Za-z0-9].{2,}" required title="only numbers and letters are allowed">
 
@@ -197,8 +211,19 @@
             </select>
 
           </div>
-           
-              <div class="form-group">
+
+          <div class="form-group">
+            <label>Vehicle Type</label>
+            <select name="vehicle_type" id="vehicle_type" class="form-select" required>
+              @foreach($vehicle_types as $vehicle_type)
+              <option>{{$vehicle_type->name}}</option>
+              @endforeach
+            </select>
+
+
+          </div>
+
+          <div class="form-group">
             <label for="max_load_size">Max Load Size</label>
             <input type="text" class="form-control" name="max_load_size" id="max_load_size" placeholder="Liter" required pattern="[0-9]{4,}" title="only numbers are allowed">
 
@@ -210,7 +235,7 @@
 
           </div>
 
-
+        
         <a id="save_driver" class="btn btn-info">
           {{ __('Save') }}
         </a>
@@ -235,10 +260,10 @@
         @csrf
       <div class="modal-body">
         <div class="form-group">
-          <label for="name">{{ __('Driver Name') }}</label>
-          <input id="driver_name_edit" type="text" class="form-control @error('driver_name') is-invalid @enderror" name="driver_name" value="{{ old('driver_name') }}" required pattern="[A-z]{3,}" title="only letters are allowed" autocomplete="driver_name" autofocus>
+          <label for="name">{{ __('User Name') }}</label>
+          <input id="user_name_edit" type="text" class="form-control @error('user_name') is-invalid @enderror" name="user_name" value="{{ old('user_name') }}" required pattern="[A-z]{3,}" title="only letters are allowed" autocomplete="user_name" autofocus>
 
-          @error('driver_name')
+          @error('user_name')
           <span class="invalid-feedback" role="alert">
             <strong>{{ $message }}</strong>
           </span>
@@ -296,7 +321,6 @@
         <a id="edit_driver" class="btn btn-info">
           {{ __('Edit') }}
         </a>
-
       </div>
       </form>
     </div>
@@ -304,38 +328,64 @@
 </div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-<script src="/assets/js/main.js"></script>
-
 
 
 <script>
   $(document).ready(function() {
     $(document).on('click', '#save_driver', function() {
     
-      $.ajax({
-        type: 'POST',
-        url: "{{ route('driver.store') }}",
-        enctype:'multipart/form-data',
-        data: {
-          '_token': "{{csrf_token()}}",
-          'driver_name': $("input[name='driver_name']").val(),
-          'full_name': $("input[name='full_name']").val(),
-          'phone': $("input[name='phone']").val(),
-          'email': $("input[name='email']").val(),
-          'id_photo': $("input[name='id_photo']").val(),
-          'license': $("input[name='license']").val(),
-          'vehicle_id': $("input[name='vehicle_id']").val(),
+      // $.ajax({
+      //   type: 'POST',
+      //   url: "{{ route('driver.store') }}",
+      //   enctype:'multipart/form-data',
+      //   data: {
+      //     '_token': "{{csrf_token()}}",
+      //     'driver_name': $("input[name='driver_name']").val(),
+      //     'full_name': $("input[name='full_name']").val(),
+      //     'phone': $("input[name='phone']").val(),
+      //     'email': $("input[name='email']").val(),
+      //     'id_photo': $("input[name='id_photo']").val(),
+      //     'license': $("input[name='license']").val(),
+      //     'vehicle_id': $("input[name='vehicle_id']").val(),
         
-        },
-        processData:false,
-        contentType:false,
-        cache:false,
-        success: function(data) { //console.log(response);
+      //   },
+      //   processData:false,
+      //   contentType:false,
+      //   cache:false,
+      //   success: function(data) { //console.log(response);
+      //     location.reload();
+      //   },
+      //   error: function(rejest) {}
+
+      // });
+
+   
+    event.preventDefault();
+    var form = $('#myForm')[0];
+    var formData = new FormData(form);
+    
+    // Set header if need any otherwise remove setup part
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="token"]').attr('value')
+        }
+    });
+    $.ajax({
+        url: "{{route('driver.store')}}",// your request url
+        data: formData,
+        processData: false,
+        contentType: false,
+        type: 'POST',
+        success: function (data) {
           location.reload();
         },
-        error: function(rejest) {}
+        error: function () {
 
-      });
+        }
+  
+
+});
+
     });
 
 
@@ -352,14 +402,14 @@
       url: getDriverURL,
 
       success: function(data) {
-        $('#driver_name_edit').val(data.user.user_name);
-        $('#full_name_edit').val(data.user.full_name);
-        $('#email_edit').val(data.user.email);
-        $('#phone_edit').val(data.user.phone);
-        $('#license_edit').val(data.user.license);
-        $('#id_photo_edit').val(data.user.id_photo);
-        $('#email_edit').val(data.user.email);
-        $('#id_edit').val(data.user.id);
+        $('#user_name_edit').val(data.driver.user_name);
+        $('#full_name_edit').val(data.driver.full_name);
+        $('#email_edit').val(data.driver.email);
+        $('#phone_edit').val(data.driver.phone);
+        $('#license_edit').val(data.driver.license);
+        $('#id_photo_edit').val(data.driver.id_photo);
+        $('#email_edit').val(data.driver.email);
+        $('#id_edit').val(data.driver.driver_id);
 
         // $('#editModal').modal('show');
 

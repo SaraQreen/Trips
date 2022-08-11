@@ -171,14 +171,33 @@ Route::group(['prefix'=>'drivers'],function(){
 
 //AJAX Management
 Route::group(['prefix'=>'management'],function(){
+    //package_type
     Route::get('/create_packagetype',[App\Http\Controllers\Admin\ManagementController::class, 'create_packagetype']);
     Route::post('/store_packagetype',[App\Http\Controllers\Admin\ManagementController::class, 'store_packagetype'])->name('package_type.store');
     Route::get('/show_packagetype/{id}',[App\Http\Controllers\Admin\ManagementController::class, 'show_packagetype'])->name('package_type.show');
     Route::post('/update_packagetype',[App\Http\Controllers\Admin\ManagementController::class, 'update_packagetype'])->name('package_type.update');
     Route::get('/delete_packagetype/{id}',[App\Http\Controllers\Admin\ManagementController::class, 'delete_packagetype'])->name('package_type.delete');
+
+    //vehicle_type
+    Route::get('/create_vehicletype',[App\Http\Controllers\Admin\ManagementController::class, 'create_vehicletype']);
+    Route::post('/store_vehicletype',[App\Http\Controllers\Admin\ManagementController::class, 'store_vehicletype'])->name('vehicle_type.store');
+    Route::get('/show_vehicletype/{id}',[App\Http\Controllers\Admin\ManagementController::class, 'show_vehicletype'])->name('vehicle_type.show');
+    Route::post('/update_vehicletype',[App\Http\Controllers\Admin\ManagementController::class, 'update_vehicletype'])->name('vehicle_type.update');
+    Route::get('/delete_vehicletype/{id}',[App\Http\Controllers\Admin\ManagementController::class, 'delete_vehicletype'])->name('vehicle_type.delete');
+
+     //price
+     Route::get('/create_price',[App\Http\Controllers\Admin\ManagementController::class, 'create_price']);
+     Route::post('/store_price',[App\Http\Controllers\Admin\ManagementController::class, 'store_price'])->name('price.store');
+     Route::get('/show_price/{id}',[App\Http\Controllers\Admin\ManagementController::class, 'show_price'])->name('price.show');
+     Route::post('/update_price',[App\Http\Controllers\Admin\ManagementController::class, 'update_price'])->name('price.update');
+     Route::get('/delete_price/{id}',[App\Http\Controllers\Admin\ManagementController::class, 'delete_price'])->name('price.delete');
+ 
+
+
+
 });
 
-//AJAX Admins
+//AJAX Accunt
 Route::group(['prefix'=>'admin'],function(){
     Route::get('/create',[App\Http\Controllers\Admin\AccuntController::class, 'create']);
     Route::post('/store',[App\Http\Controllers\Admin\AccuntController::class, 'store'])->name('admin.store');

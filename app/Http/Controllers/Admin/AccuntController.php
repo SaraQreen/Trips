@@ -25,7 +25,7 @@ class AccuntController extends Controller
 
     protected function store(Request $request)
     {
-        //save user in DB using AJAX
+        //save admin in DB using AJAX
 
 
         $admin = User::create([
@@ -54,26 +54,34 @@ class AccuntController extends Controller
      public function show($id)
     {
 
-        $admin = DB::select(DB::raw("SELECT * FROM `users` WHERE role_type='ADMIN'"));
-        return response()->json(['user' => $admin]);
+        $admin = User::find($id);
+        return response()->json(['admin' => $admin]);
     }
 
     protected function update(Request $request)
     {
-        //update user in DB using AJAX
+        //update admin in DB using AJAX
 
-        $admin = User::find($request->id)->where('role_type','=','ADMIN')->get();
+        $admin = User::find($request->id);
 
 
         $admin->user_name = $request->user_name;
         $admin->full_name = $request->full_name;
         $admin->email = $request->email;
         $admin->phone = $request->phone;
-        $admin ->role_type = $request->role_type;
         $admin->save();
 
         return response()->json(['admin' => $admin]);
     }
+
+    public function delete($id)
+    {
+
+        $admin = User::whereId($id)->first()->delete();
+        return response()->json(['admin' => $admin]);
+    }
+
+
 
 
 

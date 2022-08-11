@@ -40,7 +40,7 @@
                 <td>{{$package->receiver_phone}}</td>
                 <td>{{$package->sender_id}}</td>
                 <td>{{$package->trip_id}}</td>
-                <td>{{$package->package_type_id}}</td>
+                <td>{{$package->package_type}}</td>
 
             </tr>
         </tbody>

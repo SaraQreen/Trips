@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
@@ -23,15 +24,17 @@ class AdminController extends Controller
     public function drivers()
     {
         
-       $drivers = DB::select(DB::raw("SELECT d.*,u.* FROM `drivers` d  JOIN users u ON u.id=d.driver_id;"));
-        return view('Admin/drivers',['drivers'=>$drivers]);
+    //    $drivers = DB::select(DB::raw("SELECT d.*,u.* FROM `drivers` d  JOIN users u ON u.id=d.driver_id;"));
+       $drivers = User::where('role_type','DRIVER')->with(['driver'])->get();
+       $vehicle_types= Vehicle_type::get();
+        return view('Admin/drivers',['drivers'=>$drivers,'vehicle_types'=>$vehicle_types]);
     }
 
     public function management()
     {
         $packages_type=DB::select(DB::raw("SELECT * FROM `package_type`"));
         $vehicle_types=DB::select(DB::raw("SELECT * FROM `vehicle_types`"));
-        //$vehicle_types = Vehicle_type::get();
+       // $vehicle_types = Vehicle_type::get();
         $prices=DB::select(DB::raw("SELECT * FROM `prices`"));
         return view('Admin/management',['packages_type'=>$packages_type, 'vehicle_types'=>$vehicle_types,'prices'=>$prices]);
     }
