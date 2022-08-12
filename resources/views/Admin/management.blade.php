@@ -15,11 +15,11 @@
         <tbody>
         @foreach($packages_type as $package_type)
             <tr>
-                <td>{{$package_type->name}} </td>
+                <td>{{$package_type->name}}</td>
                 <td>
 
                    <a href='#'>
-                     <i onclick="getVehicle_typeDetails('{{$package_type->package_type_id}}')" data-target="#editModal" data-toggle="modal" class="fa fa-edit blue"></i>
+                     <i onclick="getPackage_typeDetails('{{$package_type->package_type_id}}')" data-target="#editModal" data-toggle="modal" class="fa fa-edit blue"></i>
                    </a>
                  /
                    <a href='#'>
@@ -144,7 +144,7 @@
     <div class="modal-content">
       <div class="modal-header ">
 
-        <h2 class="modal-title" id="addModalLabel">Edit Package Type </h2>
+        <h2 class="modal-title" id="editModalLabel">Edit Package Type </h2>
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
       </div>
       <form class="form needs-validation p-1" novalidate>
@@ -279,7 +279,7 @@
 
 
           <label for="name">{{ __('Price Per KM') }}</label>
-          <input id="Price_Per_KM" type="text" class="form-control @error('Price_Per_KM') is-invalid @enderror" name="Price_Per_KM" value="{{ old('Price_Per_KM') }}" required pattern="[A-z]{3,}" title="only letters are allowed" autocomplete="name" autofocus>
+          <input id="Price_Per_KM" type="text" class="form-control @error('Price_Per_KM') is-invalid @enderror" name="Price_Per_KM" value="{{ old('Price_Per_KM') }}" required pattern="[0-9]{4,}" title="only numbers are allowed" autocomplete="name" autofocus>
 
           @error('Price_Per_KM')
           <span class="invalid-feedback" role="alert">
@@ -287,7 +287,7 @@
           </span>
           @enderror
           <label for="name">{{ __('Price Per KG') }}</label>
-          <input id="Price_Per_KG" type="text" class="form-control @error('Price_Per_KG') is-invalid @enderror" name="Price_Per_KG" value="{{ old('Price_Per_KG') }}" required pattern="[A-z]{3,}" title="only letters are allowed" autocomplete="name" autofocus>
+          <input id="Price_Per_KG" type="text" class="form-control @error('Price_Per_KG') is-invalid @enderror" name="Price_Per_KG" value="{{ old('Price_Per_KG') }}" required pattern="[0-9]{4,}" title="only numbers are allowed" autocomplete="name" autofocus>
 
           @error('Price_Per_KG')
           <span class="invalid-feedback" role="alert">
@@ -336,7 +336,7 @@
 
 
           <label for="name">{{ __('Price Per KM') }}</label>
-          <input id="Price_Per_KM_edit" type="text" class="form-control @error('Price_Per_KM') is-invalid @enderror" name="Price_Per_KM" value="{{ old('Price_Per_KM') }}" required pattern="[A-z]{3,}" title="only letters are allowed" autocomplete="name" autofocus>
+          <input id="Price_Per_KM_edit" type="text" class="form-control @error('Price_Per_KM') is-invalid @enderror" name="Price_Per_KM" value="{{ old('Price_Per_KM') }}" required pattern="[0-9]{4,}" title="only numbers are allowed" autocomplete="name" autofocus>
 
           @error('Price_Per_KM')
           <span class="invalid-feedback" role="alert">
@@ -344,7 +344,7 @@
           </span>
           @enderror
           <label for="name">{{ __('Price Per KG') }}</label>
-          <input id="Price_Per_KG_edit" type="text" class="form-control @error('Price_Per_KG') is-invalid @enderror" name="Price_Per_KG" value="{{ old('Price_Per_KG') }}" required pattern="[A-z]{3,}" title="only letters are allowed" autocomplete="name" autofocus>
+          <input id="Price_Per_KG_edit" type="text" class="form-control @error('Price_Per_KG') is-invalid @enderror" name="Price_Per_KG" value="{{ old('Price_Per_KG') }}" required pattern="[0-9]{4,}" title="only numbers are allowed" autocomplete="name" autofocus>
 
           @error('Price_Per_KG')
           <span class="invalid-feedback" role="alert">
@@ -387,6 +387,7 @@
 
 
   });
+
 </script>
 
 <script>
@@ -472,7 +473,7 @@
       });
     });
 
-
+    
   });
 </script>
 

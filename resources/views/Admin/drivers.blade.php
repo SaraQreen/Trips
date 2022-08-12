@@ -488,9 +488,9 @@
 </script>
 
 <script>
-  function deleteDriver($driver_id) {
+  function deleteDriver($id) {
     var getDriverURL = '{{ route("driver.delete","driver_id") }}';
-    getDriverURL = getDriverURL.replace("driver_id", $driver_id);
+    getDriverURL = getDriverURL.replace("driver_id", $id);
     console.log(getDriverURL);
     $.ajax({
       type: 'GET',

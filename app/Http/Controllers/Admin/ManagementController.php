@@ -5,6 +5,7 @@ use Illuminate\Routing\Controller;
 use App\Models\Package_type;
 use App\Models\Price;
 use App\Models\Vehicle_type;
+use App\Models\Vehicles;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
@@ -38,8 +39,6 @@ class ManagementController extends Controller
     }
 
      
-
-
     public function show_packagetype($id)
     {
 
@@ -132,14 +131,14 @@ class ManagementController extends Controller
  protected function store_price(Request $request)
  {
      //save Price in DB using AJAX
-
+     $vehicle_types=Vehicle_type::get();
      $prices =Price::create([
-         'vehicle_type_id' => $request->vehicle_type_id,
+         //'vehicle_type_id' =>$request->vehicle_type_id,
          'p4km' => $request->p4km,
          'p4kg' => $request->p4kg,
      ]);
 
-     return response()->json(['prices' => $prices]);
+     return response()->json(['prices' => $prices,'vehicle_types'=>$vehicle_types]);
  }
 
  public function show_price($id)
