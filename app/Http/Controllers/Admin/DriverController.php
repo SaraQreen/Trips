@@ -96,9 +96,9 @@ class DriverController extends Controller
     public function show($id)
     {
        
-        $driver = DB::select(DB::raw("SELECT d.*,u.* FROM `drivers` d  JOIN users u ON u.id=d.driver_id;"));
+        $driver = DB::select(DB::raw("SELECT d.*,u.* FROM `drivers` d  JOIN users u ON u.id=d.driver_id where u.id=$id;"));
         // $driver = User::where('id',$id)->with(['driver'])->get();
-        return response()->json(['driver' => $driver]);
+        return $driver;
     }
 
     protected function update(Request $request)
@@ -182,13 +182,13 @@ class DriverController extends Controller
         }
     }
 
-    public function delete(Request $request)
+    public function delete( $id)
     {
-        $data = $request->all();
-        $id = Auth::user()->id;
+       // $data = $request->all();
+        //$id = Auth::user()->id;
         $user = User::findOrFail($id);
         $driver = Driver::findOrFail($id);
-        $vehicle_id=$data['d_id'];
+        $vehicle_id=$driver['vehicle_id'];
         $pass_trips = Passenger_trip::where('passenger_id', $id)->get();
         $trips = Trip::where('driver_id', $id)->get();
         $packs = Package::where('sender_id', $id)->get();
@@ -222,7 +222,7 @@ class DriverController extends Controller
         //File::delete(public_path('images/license/' . $driver->id_photo));
         
 
-    return response()->json(['driver' => $driver]);
+    return $driver;
 }
 
 

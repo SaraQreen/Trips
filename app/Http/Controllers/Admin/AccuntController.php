@@ -77,8 +77,8 @@ class AccuntController extends Controller
     public function delete($id)
     {
 
-        $admin = User::whereId($id)->first()->delete();
-        return response()->json(['admin' => $admin]);
+        $admin = User::where('id',$id)->first()->delete();
+       
     }
 
 

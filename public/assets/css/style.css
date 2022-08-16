@@ -214,14 +214,42 @@ h6,
   font-size: 14px;
   text-transform: none;
   color: #1c3745;
+
+
 }
 
 .navbar .dropdown .dropdown-menu {
 
   right: 0;
   left: unset;
+
 }
 
+.dropped_a {
+  display: inline-flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+
+.date {
+  font-size: xx-small !important;
+  text-align: end;
+}
+
+.paragraph {
+  display: block;
+  /* or inline-block, at least its a block element */
+  width: 13rem;
+  /* or width is certain by parent element */
+  height: auto;
+  /* height cannot be defined */
+  /*  word-break: break-all; */
+  word-wrap: break-word;
+  /* if you want to cut the complete word */
+  white-space: normal;
+  margin: auto;
+  font-size: smaller;
+}
 
 @media (max-width: 1366px) {
   .navbar .dropdown .dropdown ul {
@@ -230,6 +258,18 @@ h6,
 
   .navbar .dropdown .dropdown:hover>ul {
     left: -100%;
+  }
+}
+
+@media(max-width:350px) {
+  .navbar {
+    flex-wrap: nowrap;
+  }
+}
+
+@media(max-width:450) {
+  .navbar .dropdown .dropdown-menu {
+    right: 50%;
   }
 }
 
@@ -288,6 +328,10 @@ h6,
   background-color: #fff;
   overflow-y: auto;
   transition: 0.3s;
+}
+
+.navbar-mobile div {
+  display: none;
 }
 
 .navbar-mobile a,
@@ -739,6 +783,14 @@ section {
   background-color: #F5F9FB;
 }
 
+.prof_span_label {
+  font-size: x-large;
+}
+
+.prof_span {
+  font-size: medium;
+}
+
 .profile .container {
   margin: auto;
   padding: 35px;
@@ -760,10 +812,10 @@ section {
 .profile .container .btn-profile-delete {
   background-color: #68A4C4;
   color: white;
-  font-size: large;
-  padding-left: 20px;
-  padding-right: 20px;
-  border-radius: 10px;
+  /*  font-size: large;
+ padding-left: 20px;
+  padding-right: 20px;*/
+  border-radius: 20px;
   margin: 5px;
   border: 2px solid #68A4C4;
 }
@@ -941,9 +993,18 @@ section {
 /*--------------------------------------------------------------
 # trip
 --------------------------------------------------------------*/
+#start_lat,
+#end_lat {
+  opacity: 0;
+  width: 0;
+}
 
 .trip {
   background-color: #F5F9FB;
+}
+
+.trips {
+  background-color: #ffffff;
 }
 
 .trip .container {
@@ -1364,10 +1425,18 @@ section {
 /* The side navigation menu */
 
 
-.btn-admin,.btn-admin-delete {
+.btn-admin,
+.btn-admin-delete {
   background-color: #123649;
   color: white;
   border-radius: 25px;
+  margin: 5px;
+}
+
+.btn-admin-form{
+  background-color: #123649;
+  color: white!important;
+  
   margin: 5px;
 }
 
@@ -1378,7 +1447,7 @@ section {
 }
 
 
-.btn-admin:hover {
+.btn-admin:hover,.btn-admin-form:hover {
   background-color: #68A4C4;
   color: white;
 }

@@ -3,7 +3,7 @@
 @section('content')
 
 <div class="m-5">
-<div href="#addModal" data-toggle="modal" data-target="#addModal" class="btn  btn-admin">Add a new admin</div>
+  <div href="#addModal" data-toggle="modal" data-target="#addModal" class="btn  btn-admin">Add a new admin</div>
   <table class="pro_log">
     <thead>
       <tr>
@@ -26,10 +26,10 @@
             <i onclick="getAdminDetails('{{$admin->id}}')" data-target="#editModal" data-toggle="modal" class="fa fa-edit blue"></i>
           </a>
           /
-          <a href='#'>
-            <i onclick="deleteAdmin('{{$admin->id}}')" data-toggle="modal" class="fa fa-trash danger"></i>
+          <a href="#delModal" data-toggle="modal">
+            <i onclick="opendel('{{$admin->id}}')" data-toggle="modal" class="fa fa-trash danger"></i>
           </a>
-              
+
         </td>
       </tr>
     </tbody>
@@ -113,10 +113,12 @@
 
         </div>
 
+        <div class="modal-footer justify-content-center">
+          <a id="save_admin" class="btn btn-admin-form">
+            {{ __('Save') }}
+          </a>
+        </div>
 
-        <a id="save_admin" class="btn btn-info">
-          {{ __('Save') }}
-        </a>
 
       </div>
     </div>
@@ -177,16 +179,43 @@
 
         </div>
 
-        <a id="edit_admin" class="btn btn-info">
-          {{ __('Edit') }}
-        </a>
+        <div class="modal-footer justify-content-center">
+
+          <a id="edit_admin" class="btn btn-admin-form">
+            {{ __('Edit') }}
+          </a>
+
+        </div>
+
 
       </div>
     </div>
   </div>
 </div>
 
+<!-- del Modal -->
+<div id="delModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog  modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header ">
 
+        <h4>Are you sure?</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p>Do you really want to delete this account? This process cannot be undone.</p>
+      </div>
+      <div class="modal-footer justify-content-center">
+        <form>
+          @csrf
+          <input type="text" name="d_id" id="d_id" hidden>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+          <button onclick="deleteAdmin()" class="btn btn-danger">Delete</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 
@@ -274,9 +303,18 @@
 </script>
 
 <script>
-  function deleteAdmin($id) {
+  var d_id;
+
+  function opendel($id) {
+    document.getElementById('d_id').value = $id;
+    d_id = $id;
+    //alert(d_id);
+  }
+
+  function deleteAdmin() {
     var getAdminURL = '{{ route("admin.delete","id") }}';
-    getAdminURL = getAdminURL.replace("id", $id);
+   // alert(d_id);
+    getAdminURL = getAdminURL.replace("id", d_id);
     console.log(getAdminURL);
     $.ajax({
       type: 'GET',

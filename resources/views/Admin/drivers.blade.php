@@ -3,64 +3,55 @@
 @section('content')
 
 <div class="m-5">
-<div href="#addModal" data-toggle="modal" data-target="#addModal" class="btn  btn-admin">Add a new Driver</div>
-    <table class="pro_log">
-        <thead>
-            <tr>
-                <th>User Name</th>
-                <th>Full Name</th>
-                <th>Phone</th>
-                <th>Email</th>
-                <th>ID</th>
-                <th>License</th>
-                <th>Vehicle ID</th>
-                <th>Operations</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach($drivers as $driver)
-            <tr>
-                <td>{{$driver->user_name}}</td>
-                <td>{{$driver->full_name}}</td>
-                <td>{{$driver->phone}}</td>
-                <td>{{$driver->email}}</td>
-                <td>
-                @if($driver->driver)
-                <img src='../images/ID/{{$driver->driver->id_photo}}' height='50' width='50'/>
-                  @else
-                  -------------
-                  @endif  
-                  </td>
-             
-           
-                  <td>
-                @if($driver->driver)
-                <img src='../images/ID/{{$driver->driver->license}}' height='50' width='50'/>
-                  @else
-                  -------------
-                  @endif  
-                  </td>
-                <td>@if($driver->driver)
-                {{$driver->driver->vehicle_id}}
-                  @else
-                  -------------
-                  @endif
-                </td>
+  <div href="#addModal" data-toggle="modal" data-target="#addModal" class="btn  btn-admin">Add a new Driver</div>
+  <table class="pro_log">
+    <thead>
+      <tr>
+        <th>User Name</th>
+        <th>Full Name</th>
+        <th>Phone</th>
+        <th>Email</th>
+        <th>ID</th>
+        <th>License</th>
+        <th>Vehicle ID</th>
+        <th>Operations</th>
+      </tr>
+    </thead>
+    <tbody>
+      @foreach($drivers as $driver)
+      <tr>
+        <td>{{$driver->user_name}}</td>
+        <td>{{$driver->full_name}}</td>
+        <td>{{$driver->phone}}</td>
+        <td>{{$driver->email}}</td>
+        <td>
 
-                <td>
-                <a href='#'>
+          <img src='../images/ID/{{$driver->id_photo}}' height='50' width='50' />
+
+        </td>
+
+
+        <td>
+
+          <img src='../images/License/{{$driver->license}}' height='50' width='50' />
+
+        </td>
+        <td>{{$driver->vehicle_id}}</td>
+
+        <td>
+          <a href='#'>
             <i onclick="getDriverDetails('{{$driver->driver_id}}')" data-target="#editModal" data-toggle="modal" class="fa fa-edit blue"></i>
           </a>
           /
-          <a href='#'>
-            <i onclick="deleteDriver('{{$driver->driver_id}}')" data-toggle="modal" class="fa fa-trash danger"></i>
+          <a href="#delModal" data-toggle="modal">
+            <i onclick="opendel('{{$driver->driver_id}}')" data-toggle="modal" class="fa fa-trash danger"></i>
           </a>
-                </td>
+        </td>
 
-            </tr>
-            @endforeach
-        </tbody>
-    </table>
+      </tr>
+      @endforeach
+    </tbody>
+  </table>
 </div>
 
 <!--Add Modal-->
@@ -73,54 +64,54 @@
         <h2 class="modal-title" id="addModalLabel">Add New Driver</h2>
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
       </div>
-      <form  id="myForm" enctype="multipart/form-data">
-      @csrf
-      <div class="modal-body">
-        <div class="form-group">
-          <label for="name">{{ __('User Name') }}</label>
-          <input id="user_name" type="text" class="form-control @error('user_name') is-invalid @enderror" name="user_name" value="{{ old('user_name') }}" required pattern="[A-z]{3,}" title="only letters are allowed" autocomplete="user_name" autofocus>
+      <form id="myForm" enctype="multipart/form-data">
+        @csrf
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="name">{{ __('User Name') }}</label>
+            <input id="user_name" type="text" class="form-control @error('user_name') is-invalid @enderror" name="user_name" value="{{ old('user_name') }}" required pattern="[A-z]{3,}" title="only letters are allowed" autocomplete="user_name" autofocus>
 
-          @error('user_name')
-          <span class="invalid-feedback" role="alert">
-            <strong>{{ $message }}</strong>
-          </span>
-          @enderror
-
-
-        </div>
-
-        <div class="form-group">
-          <label for="full_name">{{ __('Full Name') }}</label>
-          <input id="full_name" type="text" class="form-control @error('full_name') is-invalid @enderror" name="full_name" value="{{ old('full_name') }}" required autocomplete="full_name" pattern="[A-z]{3,}" title="only letters are allowed" autofocus>
-
-          @error('full_name')
-          <span class="invalid-feedback" role="alert">
-            <strong>{{ $message }}</strong>
-          </span>
-          @enderror
-
-        </div>
-
-        <div class="form-group">
-          <label for="email">{{ __('Email Address') }}</label>
-
-          <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email">
-
-          @error('email')
-          <span class="invalid-feedback" role="alert">
-            <strong>{{ $message }}</strong>
-          </span>
-          @enderror
-        </div>
-
-        <div class="form-group">
-          <label for="phone">{{ __('Phone') }}</label>
-          <input type="text" class="form-control" id="phone" name="phone" required pattern="[0-9]{6,}" value="{{ old('phone') }}" title="only numbers of six digits and above are allowed">
+            @error('user_name')
+            <span class="invalid-feedback" role="alert">
+              <strong>{{ $message }}</strong>
+            </span>
+            @enderror
 
 
-        </div>
+          </div>
 
-        <div class="form-group">
+          <div class="form-group">
+            <label for="full_name">{{ __('Full Name') }}</label>
+            <input id="full_name" type="text" class="form-control @error('full_name') is-invalid @enderror" name="full_name" value="{{ old('full_name') }}" required autocomplete="full_name" pattern="[A-z]{3,}" title="only letters are allowed" autofocus>
+
+            @error('full_name')
+            <span class="invalid-feedback" role="alert">
+              <strong>{{ $message }}</strong>
+            </span>
+            @enderror
+
+          </div>
+
+          <div class="form-group">
+            <label for="email">{{ __('Email Address') }}</label>
+
+            <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email">
+
+            @error('email')
+            <span class="invalid-feedback" role="alert">
+              <strong>{{ $message }}</strong>
+            </span>
+            @enderror
+          </div>
+
+          <div class="form-group">
+            <label for="phone">{{ __('Phone') }}</label>
+            <input type="text" class="form-control" id="phone" name="phone" required pattern="[0-9]{6,}" value="{{ old('phone') }}" title="only numbers of six digits and above are allowed">
+
+
+          </div>
+
+          <div class="form-group">
             <label for="id_photo">ID Photo</label>
             <input type="file" name="id_photo" class="form-control" id="id_photo" required>
 
@@ -133,28 +124,28 @@
 
           </div>
 
-        <div class="form-group">
-          <label for="password">Password</label>
+          <div class="form-group">
+            <label for="password">Password</label>
 
-          <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" title="Password should have at least 6 or more characters" required pattern=".{6,}" autocomplete="new-password">
+            <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" title="Password should have at least 6 or more characters" required pattern=".{6,}" autocomplete="new-password">
 
-          @error('password')
-          <span class="invalid-feedback" role="alert">
-            <strong>{{ $message }}</strong>
-          </span>
-          @enderror
+            @error('password')
+            <span class="invalid-feedback" role="alert">
+              <strong>{{ $message }}</strong>
+            </span>
+            @enderror
 
-        </div>
+          </div>
 
-        <div class="form-group">
-          <label for="password-confirm">{{ __('Confirm Password') }}</label>
+          <div class="form-group">
+            <label for="password-confirm">{{ __('Confirm Password') }}</label>
 
 
-          <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required pattern=".{6,}" title="Password should have at least 6 or more characters" autocomplete="new-password">
+            <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required pattern=".{6,}" title="Password should have at least 6 or more characters" autocomplete="new-password">
 
-        </div>
+          </div>
 
-        
+
           <h2>Vehicle Information</h2>
           <div class="form-group">
             <label for="brand">Brand</label>
@@ -235,12 +226,14 @@
 
           </div>
 
-        
-        <a id="save_driver" class="btn btn-info">
-          {{ __('Save') }}
-        </a>
+          <div class="modal-footer justify-content-center">
+            <a id="save_driver" class="btn btn-admin-form">
+              {{ __('Save') }}
+            </a>
 
-      </div>
+          </div>
+
+        </div>
       </form>
     </div>
   </div>
@@ -256,73 +249,100 @@
         <h2 class="modal-title" id="addModalLabel">Edit Driver Information</h2>
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
       </div>
-      <form  enctype="multipart/form-data">
+      <form enctype="multipart/form-data">
         @csrf
-      <div class="modal-body">
-        <div class="form-group">
-          <label for="name">{{ __('User Name') }}</label>
-          <input id="user_name_edit" type="text" class="form-control @error('user_name') is-invalid @enderror" name="user_name" value="{{ old('user_name') }}" required pattern="[A-z]{3,}" title="only letters are allowed" autocomplete="user_name" autofocus>
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="name">{{ __('User Name') }}</label>
+            <input id="user_name_edit" type="text" class="form-control @error('user_name') is-invalid @enderror" name="user_name" value="{{ old('user_name') }}" required pattern="[A-z]{3,}" title="only letters are allowed" autocomplete="user_name" autofocus>
 
-          @error('user_name')
-          <span class="invalid-feedback" role="alert">
-            <strong>{{ $message }}</strong>
-          </span>
-          @enderror
+            @error('user_name')
+            <span class="invalid-feedback" role="alert">
+              <strong>{{ $message }}</strong>
+            </span>
+            @enderror
 
+
+          </div>
+          <input type="text" name="u_id" id="u_id" value="{{$driver->driver_id}}" hidden>
+
+          <div class="form-group">
+            <label for="full_name">{{ __('Full Name') }}</label>
+            <input id="full_name_edit" type="text" class="form-control @error('full_name') is-invalid @enderror" name="full_name" value="{{ old('full_name') }}" required autocomplete="full_name" pattern="[A-z]{3,}" title="only letters are allowed" autofocus>
+
+            @error('full_name')
+            <span class="invalid-feedback" role="alert">
+              <strong>{{ $message }}</strong>
+            </span>
+            @enderror
+
+          </div>
+
+          <div class="form-group">
+            <label for="email">{{ __('Email Address') }}</label>
+
+            <input id="email_edit" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email">
+
+            @error('email')
+            <span class="invalid-feedback" role="alert">
+              <strong>{{ $message }}</strong>
+            </span>
+            @enderror
+          </div>
+
+          <div class="form-group">
+            <label for="phone">{{ __('Phone') }}</label>
+            <input type="text" class="form-control" id="phone_edit" name="phone" required pattern="[0-9]{6,}" value="{{ old('phone') }}" title="only numbers of six digits and above are allowed">
+
+
+          </div>
+
+          <div class="form-group">
+            <label for="u_id_photo">ID Photo</label><br>
+            <input type="file" name="u_id_photo" class="form-control" id="id_photo_edit" onChange="displayImageu_ID(this)" style="display: none;">
+            <img src="{{asset('images/ID/'.$driver->id_photo)}}" onClick="triggerClicku_ID()" id="u_id_display" height='200' width='250' style="border: 1px solid; cursor: pointer;" />
+
+          </div>
+          <div class="form-group">
+            <label for="u_license">License</label><br>
+            <input type="file" name="u_license" class="form-control" id="license_edit" onChange="displayImageu_Li(this)" style="display: none;">
+            <img src="{{asset('images/License/'.$driver->license)}}" onClick="triggerClicku_Li()" id="u_li_display" height='200' width='250' style="border: 1px solid; cursor: pointer;" />
+
+          </div>
+
+
+          <div class="modal-footer justify-content-center">
+            <a id="edit_driver" class="btn btn-admin-form">
+              {{ __('Edit') }}
+            </a>
+          </div>
 
         </div>
-        <input type="text" name="u_id" id="u_id" value="{{$driver->driver_id}}" hidden>
-
-        <div class="form-group">
-          <label for="full_name">{{ __('Full Name') }}</label>
-          <input id="full_name_edit" type="text" class="form-control @error('full_name') is-invalid @enderror" name="full_name" value="{{ old('full_name') }}" required autocomplete="full_name" pattern="[A-z]{3,}" title="only letters are allowed" autofocus>
-
-          @error('full_name')
-          <span class="invalid-feedback" role="alert">
-            <strong>{{ $message }}</strong>
-          </span>
-          @enderror
-
-        </div>
-
-        <div class="form-group">
-          <label for="email">{{ __('Email Address') }}</label>
-
-          <input id="email_edit" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email">
-
-          @error('email')
-          <span class="invalid-feedback" role="alert">
-            <strong>{{ $message }}</strong>
-          </span>
-          @enderror
-        </div>
-
-        <div class="form-group">
-          <label for="phone">{{ __('Phone') }}</label>
-          <input type="text" class="form-control" id="phone_edit" name="phone" required pattern="[0-9]{6,}" value="{{ old('phone') }}" title="only numbers of six digits and above are allowed">
-
-
-        </div>
-
-        <div class="form-group">
-                  <label for="u_id_photo">ID Photo</label><br>
-                  <input type="file" name="u_id_photo" class="form-control" id="id_photo_edit" onChange="displayImageu_ID(this)" style="display: none;">
-                  <img src="{{asset('images/ID/'.$driver->id_photo)}}" onClick="triggerClicku_ID()" id="u_id_display" height='200' width='250' style="border: 1px solid; cursor: pointer;" />
-
-                  </div>
-                <div class="form-group">
-                  <label for="u_license">License</label><br>
-                  <input type="file" name="u_license" class="form-control" id="license_edit" onChange="displayImageu_Li(this)" style="display: none;">
-                  <img src="{{asset('images/License/'.$driver->license)}}" onClick="triggerClicku_Li()" id="u_li_display" height='200' width='250' style="border: 1px solid; cursor: pointer;" />
-
-                </div>
-                
-
-        <a id="edit_driver" class="btn btn-info">
-          {{ __('Edit') }}
-        </a>
-      </div>
       </form>
+    </div>
+  </div>
+</div>
+
+<!-- del Modal -->
+<div id="delModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog  modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header ">
+
+        <h4>Are you sure?</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p>Do you really want to delete this account? This process cannot be undone.</p>
+      </div>
+      <div class="modal-footer justify-content-center">
+        <form>
+          @csrf
+          <input type="text" name="d_id" id="d_id" hidden>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+          <button onclick="deleteDriver()" class="btn btn-danger">Delete</button>
+        </form>
+      </div>
     </div>
   </div>
 </div>
@@ -333,7 +353,7 @@
 <script>
   $(document).ready(function() {
     $(document).on('click', '#save_driver', function() {
-    
+
       // $.ajax({
       //   type: 'POST',
       //   url: "{{ route('driver.store') }}",
@@ -347,7 +367,7 @@
       //     'id_photo': $("input[name='id_photo']").val(),
       //     'license': $("input[name='license']").val(),
       //     'vehicle_id': $("input[name='vehicle_id']").val(),
-        
+
       //   },
       //   processData:false,
       //   contentType:false,
@@ -359,32 +379,32 @@
 
       // });
 
-   
-    event.preventDefault();
-    var form = $('#myForm')[0];
-    var formData = new FormData(form);
-    
-    // Set header if need any otherwise remove setup part
-    $.ajaxSetup({
+
+      event.preventDefault();
+      var form = $('#myForm')[0];
+      var formData = new FormData(form);
+
+      // Set header if need any otherwise remove setup part
+      $.ajaxSetup({
         headers: {
-            'X-CSRF-TOKEN': $('meta[name="token"]').attr('value')
+          'X-CSRF-TOKEN': $('meta[name="token"]').attr('value')
         }
-    });
-    $.ajax({
-        url: "{{route('driver.store')}}",// your request url
+      });
+      $.ajax({
+        url: "{{route('driver.store')}}", // your request url
         data: formData,
         processData: false,
         contentType: false,
         type: 'POST',
-        success: function (data) {
+        success: function(data) {
           location.reload();
         },
-        error: function () {
+        error: function() {
 
         }
-  
 
-});
+
+      });
 
     });
 
@@ -402,14 +422,15 @@
       url: getDriverURL,
 
       success: function(data) {
-        $('#user_name_edit').val(data.driver.user_name);
-        $('#full_name_edit').val(data.driver.full_name);
-        $('#email_edit').val(data.driver.email);
-        $('#phone_edit').val(data.driver.phone);
-        $('#license_edit').val(data.driver.license);
-        $('#id_photo_edit').val(data.driver.id_photo);
-        $('#email_edit').val(data.driver.email);
-        $('#id_edit').val(data.driver.driver_id);
+        alert(data.user_name);
+        $('#user_name_edit').val(data.user_name);
+        $('#full_name_edit').val(data.full_name);
+        $('#email_edit').val(data.email);
+        $('#phone_edit').val(data.phone);
+        $('#license_edit').val(data.license);
+        $('#id_photo_edit').val(data.id_photo);
+        $('#email_edit').val(data.email);
+        $('#id_edit').val(data.driver_id);
 
         // $('#editModal').modal('show');
 
@@ -421,40 +442,39 @@
 </script>
 
 <script>
-    //for update id_photo
-    function triggerClicku_ID(e) {
-      document.querySelector('#u_id_photo').click();
-    }
+  //for update id_photo
+  function triggerClicku_ID(e) {
+    document.querySelector('#u_id_photo').click();
+  }
 
-    function displayImageu_ID(e) {
-      if (e.files[0]) {
-        var reader = new FileReader();
-        reader.onload = function(e) {
-          document.querySelector('#u_id_display').setAttribute('src', e.target.result);
-        }
-        reader.readAsDataURL(e.files[0]);
+  function displayImageu_ID(e) {
+    if (e.files[0]) {
+      var reader = new FileReader();
+      reader.onload = function(e) {
+        document.querySelector('#u_id_display').setAttribute('src', e.target.result);
       }
+      reader.readAsDataURL(e.files[0]);
     }
-    </script>
+  }
+</script>
 
-   
+
 <script>
-  
-   //for update license_photo
-    function triggerClicku_Li(e) {
-      document.querySelector('#u_license').click();
-    }
+  //for update license_photo
+  function triggerClicku_Li(e) {
+    document.querySelector('#u_license').click();
+  }
 
-    function displayImageu_Li(e) {
-      if (e.files[0]) {
-        var reader = new FileReader();
-        reader.onload = function(e) {
-          document.querySelector('#u_li_display').setAttribute('src', e.target.result);
-        }
-        reader.readAsDataURL(e.files[0]);
+  function displayImageu_Li(e) {
+    if (e.files[0]) {
+      var reader = new FileReader();
+      reader.onload = function(e) {
+        document.querySelector('#u_li_display').setAttribute('src', e.target.result);
       }
+      reader.readAsDataURL(e.files[0]);
     }
-  </script>
+  }
+</script>
 
 
 <script>
@@ -473,7 +493,7 @@
           'phone': $("#phone_edit").val(),
           'id_photo': $("#id_photo_edit").val(),
           'license': $("#license_edit").val(),
-        
+
         },
         success: function(data) {
           location.reload();
@@ -488,9 +508,17 @@
 </script>
 
 <script>
-  function deleteDriver($id) {
+  var id;
+
+  function opendel($id) {
+    document.getElementById('d_id').value = $id;
+    id = $id;
+    //alert(d_id);
+  }
+
+  function deleteDriver() {
     var getDriverURL = '{{ route("driver.delete","driver_id") }}';
-    getDriverURL = getDriverURL.replace("driver_id", $id);
+    getDriverURL = getDriverURL.replace("driver_id", id);
     console.log(getDriverURL);
     $.ajax({
       type: 'GET',

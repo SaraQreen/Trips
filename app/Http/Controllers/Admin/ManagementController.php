@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
+
 use Illuminate\Routing\Controller;
 use App\Models\Package_type;
 use App\Models\Price;
@@ -31,46 +32,43 @@ class ManagementController extends Controller
         //save Package_Type in DB using AJAX
 
 
-        $packages_type =Package_type::create([
+        $packages_type = Package_type::create([
             'name' => $request->name,
         ]);
 
         return response()->json(['package_type' => $packages_type]);
     }
 
-     
+
     public function show_packagetype($id)
     {
 
-        $packages_type = Package_type::where('package_type_id',$id)->first();
-        
-        return response()->json(['packages_type' => $packages_type]);
+        $packages_type = Package_type::where('package_type_id', $id)->first();
+
+        return  $packages_type;
     }
 
     protected function update_packagetype(Request $request)
     {
-        //save Package Type in DB using AJAX
+        $id = $request->package_type_id;
+        $update = Package_type::where("package_type_id", $id)->update([
+            'name' => $request->name,
+        ]);
 
-        $packages_type = Package_type::find($request->id);
 
-
-        $packages_type->name = $request->name;
-       
-        $packages_type->save();
-
-        return response()->json(['packages_type' => $packages_type]);
+        // return response()->json(['packages_type' => $packages_type]);
     }
 
     public function delete_packagetype($id)
     {
 
-        $packages_type = Package_type::where('package_type_id',$id)->delete();
+        $packages_type = Package_type::where('package_type_id', $id)->delete();
         return response()->json(['packages_type' => $packages_type]);
     }
 
 
-      //Vehicle_type management
-   
+    //Vehicle_type management
+
     public function create_vehicletype()
     {
 
@@ -81,106 +79,90 @@ class ManagementController extends Controller
     protected function store_vehicletype(Request $request)
     {
         //save Vehicle_Type in DB using AJAX
+         $request;
 
-
-        $vehicle_types =Vehicle_type::create([
+        $vehicle_types = Vehicle_type::create([
             'name' => $request->name,
         ]);
+        // $vehicle_types['id'];
+         $prices = Price::create([
+            'vehicle_type_id' =>  $vehicle_types['id'],
+            'p4km' => $request->Price_Per_KM,
+            'p4kg' => $request->Price_Per_KG,
+        ]);
 
-        return response()->json(['vehicle_type' => $vehicle_types]);
+    
     }
 
     public function show_vehicletype($id)
     {
 
-        $vehicles_type = Vehicle_type::where('vehicle_type_id',$id)->first();
-        
-        return response()->json(['vehicles_type' => $vehicles_type]);
+        $vehicles_type = Vehicle_type::where('vehicle_type_id', $id)->first();
+
+        return  $vehicles_type;
     }
 
     protected function update_vehicletype(Request $request)
     {
 
-        $vehicles_type = Vehicle_type::find($request->id);
-
-
-        $vehicles_type->name = $request->name;
-       
-        $vehicles_type->save();
-
-        return response()->json(['vehicles_type' => $vehicles_type]);
+        $id = $request->vehicle_type_id;
+        return $update = Vehicle_type::where("vehicle_type_id", $id)->update([
+            'name' => $request->name,
+        ]);
     }
 
     public function delete_vehicletype($id)
     {
-
-        $vehicles_type = Vehicle_type::where('vehicle_type_id',$id)->delete();
-        return response()->json(['vehicles_type' => $vehicles_type]);
+        $prices = Price::where('vehicle_type_id', $id)->delete();
+        $vehicles_type = Vehicle_type::where('vehicle_type_id', $id)->delete();
+       
+        
     }
 
 
- //price management
+    //price management
 
- public function create_price()
- {
-
-     //view form to add this price
-     return view('Admin.management');
- }
-
- protected function store_price(Request $request)
- {
-     //save Price in DB using AJAX
-     $vehicle_types=Vehicle_type::get();
-     $prices =Price::create([
-         //'vehicle_type_id' =>$request->vehicle_type_id,
-         'p4km' => $request->p4km,
-         'p4kg' => $request->p4kg,
-     ]);
-
-     return response()->json(['prices' => $prices,'vehicle_types'=>$vehicle_types]);
- }
-
- public function show_price($id)
+    public function create_price()
     {
-        $vehicle_types = Vehicle_type::get();
 
-        $prices = Price::where('price_id',$id)->first();
-        
-        return response()->json(['prices' => $prices,'vehicle_types'=>$vehicle_types]);
+        //view form to add this price
+        return view('Admin.management');
+    }
+
+
+
+    public function show_price($id)
+    {
+       
+
+        $prices = Price::where('price_id', $id)->first();
+
+        return $prices;
     }
 
     protected function update_price(Request $request)
     {
+        $id = $request->price_id_edit;
+        return $update = Price::where("price_id", $id)->update([
+           
+            'p4km' => $request->p4km,
+            'p4kg' => $request->p4kg,
+        ]);
 
-        $prices = Price::find($request->id);
 
-        $prices->vehicle_type_id =$request->vehicle_type_id;
-        $prices->p4km = $request->p4km;
-        $prices->p4kg = $request->p4kg;
-       
-        $prices->save();
 
-        return response()->json(['prices' => $prices]);
+
+
+        //$prices = Price::find($request->id);
+
+        //$prices->vehicle_type_id = $request->vehicle_type_id;
+        //$prices->p4km = $request->p4km;
+        //$prices->p4kg = $request->p4kg;
+
+        //$prices->save();
+
+        //return response()->json(['prices' => $prices]);
     }
-
-    public function delete_price($id)
-    {
-
-        $prices = Price::where('price_id',$id)->delete();
-        return response()->json(['prices' => $prices]);
-    }
-
-
-
-
-
-
-
-  
-
-
-    
 
     
 }
